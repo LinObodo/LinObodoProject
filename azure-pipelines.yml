@@ -1,0 +1,38 @@
+# azure-pipelines.yml
+# Pipeline for LinObodoProject - LinObodo's work
+
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  projectName: 'LinObodoProject'
+  owner: 'LinObodo'
+
+steps:
+- script: echo "Starting build for project $(projectName) by $(owner)"
+  displayName: 'Show project and owner info'
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    echo "Building $(projectName)..."
+    npm install
+    npm run build
+  displayName: 'Build project'
+
+- script: |
+    echo "Running tests for $(projectName)..."
+    npm test
+  displayName: 'Run tests'
+
+- script: echo "Build and test completed for $(projectName). Thanks, $(owner)!"
+  displayName: 'Finish message'
+
+
+
